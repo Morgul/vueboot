@@ -1,0 +1,31 @@
+{
+  "name": "vueboot",
+  "version": "0.0.0",
+  "description": "A collection of Vuejs components that wrap Bootstrap components",
+  "main": "vueboot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vue",
+    "bootstrap"
+  ],
+  "author": "Christopher S. Case <chris.case@g33xnexus.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "babelify": "^6.3.0",
+    "browserify": "^11.2.0",
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^4.0.1",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "insert-css": "^0.2.0",
+    "node-sass": "^3.3.3",
+    "vueify": "^1.1.5"
+  },
+  "dependencies": {
+    "bluebird": "^2.10.1",
+    "lodash": "^3.10.1"
+  }
+}
