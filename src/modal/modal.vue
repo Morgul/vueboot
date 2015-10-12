@@ -47,6 +47,10 @@
             {
                 this.show = false;
                 $(this.$el).modal('hide');
+            },
+            refresh: function()
+            {
+                $(this.$el).data('bs.modal').handleUpdate();
             }
         },
         watch: {
