@@ -4,9 +4,6 @@
 # IntelliJ artifacts
 .idea
 
-# Build artifacts
-dist/
-
 # Bower artifacts
 vendor
 
