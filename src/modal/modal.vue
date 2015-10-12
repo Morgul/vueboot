@@ -30,7 +30,11 @@
                 default: true
             },
             keyboard: {
+                type: Boolean,
                 default: true
+            },
+            autoFocus: {
+                type: String
             },
             onClosed: {
                 type: Function,
@@ -68,6 +72,19 @@
         },
         ready: function()
         {
+            $(this.$el).on('shown.bs.modal', () =>
+            {
+                var autoElem = $(this.autoFocus);
+                if(autoElem[0])
+                {
+                    autoElem.focus();
+                }
+                else
+                {
+                    console.warn(`[VueBoot] Autofocus selector '${this.autoFocus}' did not select an element.`);
+                } // end if
+            });
+
             $(this.$el).on('hidden.bs.modal', (event) =>
             {
                 this.show = false;
