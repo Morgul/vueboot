@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+
+# IntelliJ artifacts
+.idea
+
+# Node artifacts
+node_modules
