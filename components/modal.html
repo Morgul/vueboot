@@ -1,0 +1,127 @@
+<a class="anchor" id="modal"></a>
+<div class="page-header">
+    <h1>Modal</h1>
+</div>
+
+<div class="card">
+    <div class="card-header">Example</div>
+    <div class="card-block">
+        <button class="btn btn-secondary" @click="showModal('basicModal')">Open Basic Modal</button>
+
+        <modal v-ref:basic-modal>
+            <div class="modal-header" slot="header">
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body" slot="body">
+                <p>So, this is a thing.</p>
+            </div>
+            <div class="modal-footer" slot="footer">
+                <button type="button" class="btn btn-primary" @click="hideModal('basicModal')">Save changes</button>
+                <button type="button" class="btn btn-secondary" @click="hideModal('basicModal')">Close</button>
+            </div>
+        </modal>
+    </div>
+</div>
+<div class="example-row">
+    <div class="example card" style="font-size: .85rem;">
+        <div class="card-header">HTML</div>
+        {% highlight html %}
+            <button class="btn btn-secondary"
+        @click="showModal('basicModal')">Open Basic Modal</button>
+
+<modal v-ref:basic-modal>
+    <div class="modal-header" slot="header">
+        <h4 class="modal-title">Modal title</h4>
+    </div>
+    <div class="modal-body" slot="body">
+        <p>So, this is a thing.</p>
+    </div>
+    <div class="modal-footer" slot="footer">
+        <button type="button"
+                class="btn btn-primary"
+                @click="hideModal('basicModal')">Save changes</button>
+        <button type="button"
+                class="btn btn-secondary"
+                @click="hideModal('basicModal')">Close</button>
+    </div>
+</modal>
+        {% endhighlight %}
+    </div>
+    <div class="example card" style="font-size: .85rem;">
+        <div class="card-header">Javascript</div>
+        {% highlight javascript %}
+        var app = new Vue({
+    debug: true,
+    el: '#example-app',
+    methods: {
+        showModal: function(name)
+        {
+            this.$refs[name].showModal();
+        },
+        hideModal: function(name)
+        {
+            this.$refs[name].hideModal();
+        }
+    },
+    components: {
+        modal: vueboot.modal
+    }
+});
+        {% endhighlight %}
+    </div>
+</div>
+
+<h2>Component Props</h2>
+<p>
+    We support all of the same parameters as the default Bootstrap <a href="http://v4-alpha.getbootstrap.com/components/modal">modal</a>. In addition, we've added a few additional properties to make working with a modal a little easier.
+</p>
+<div class="card">
+    <table class="table">
+        <tr>
+            <th>Prop</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>show</td>
+            <td><code>Boolean</code></td>
+            <td><code>false</code></td>
+            <td>This is a two-way binding. When <code>show</code> is <code>true</code>, we open the modal, and when it is <code>false</code> we close the modal.</td>
+        </tr>
+        <tr>
+            <td>onClosed</td>
+            <td><code>Function</code></td>
+            <td></td>
+            <td>This callback is triggered once the closing animation for the modal has completed.</td>
+        </tr>
+        <tr>
+            <td>animation</td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code></td>
+            <td>Enables or disables animation on modal opening and closing.</td>
+        </tr>
+        <tr>
+            <td>width</td>
+            <td><code>String</code></td>
+            <td></td>
+            <td>A css value to set the width of the modal element. It can be any valid value for the css <code>width</code> property.</td>
+        </tr>
+        <tr>
+            <td>backdrop</td>
+            <td><code>Boolean</code> or <code>'static'</code></td>
+            <td><code>true</code></td>
+            <td>Includes a modal-backdrop element. Alternatively, specify the string <code>'static'</code> for a backdrop which doesn't close the modal on click.</td>
+        </tr>
+        <tr>
+            <td>keyboard</td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code></td>
+            <td>Closes the modal when escape key is pressed.</td>
+        </tr>
+    </table>
+</div>
+<h2>Component Methods</h2>
+<p>
+    In addition to the properties, the modal component exposes a <code>showModal()</code> function and a <code>hideModal</code> function. These can be used in place of or in addition to the <code>show</code> prop.
+</p>

@@ -1,0 +1,70 @@
+<a class="anchor" id="getting_started"></a>
+<div class="page-header">
+    <h1>Getting Started</h1>
+</div>
+
+<p>VueBoot attempts to be as non-opinionated about how you use it as either Bootstrap or VueJS are, which is why VueBoot is built as a UMD module, which will allow use in AMD, CommonJS or standard Global module development. Simply setup your project however you want, add Vue and Bootstrap, and then add VueBoot in whatever method is most appropriate.</p>
+<div class="page-header">
+    <h3>Installation</h3>
+</div>
+
+<h5>Bower</h5>
+{% highlight bash %}
+$ bower install --save vueboot
+{% endhighlight %}
+
+<h5>NPM</h5>
+{% highlight bash %}
+$ npm install --save vueboot
+{% endhighlight %}
+
+<div class="page-header">
+    <h3>Usage</h3>
+</div>
+<p>VueBoot is built as a series of VueJS components, which can be included on an 'as needed' basis. Simply include what you need, where you need it.</p>
+
+<h5>CommonJS</h5>
+{% highlight javascript %}
+var vueboot = require('vueboot');
+
+var app = new Vue({
+    components: {
+        modal: vueboot.modal
+    }
+});
+{% endhighlight %}
+
+<h5>AMD</h5>
+{% highlight javascript %}
+define(['vueboot'], function(vueboot)
+{
+    var app = new Vue({
+        components: {
+            modal: vueboot.modal
+        }
+    });
+});
+{% endhighlight %}
+
+<h5>ES6</h5>
+{% highlight javascript %}
+import { modal } from 'vueboot';
+
+var app = new Vue({
+    components: {
+        modal
+    }
+});
+{% endhighlight %}
+
+<h5>Global</h5>
+{% highlight html %}
+<script src="/vendor/vueboot/vueboot.js"></script>
+<script>
+    var app = new Vue({
+        components: {
+            modal: vueboot.modal
+        }
+    });
+</script>
+{% endhighlight %}

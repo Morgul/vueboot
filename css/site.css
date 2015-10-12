@@ -1,0 +1,53 @@
+body {
+    padding-top: 54px;
+}
+
+.anchor {
+    display: block;
+    position: relative;
+    top: -64px;
+    visibility: hidden;
+}
+
+.jumbotron .btn-secondary-outline {
+    color: white;
+    border-color: white;
+}
+
+.jumbotron .btn-secondary-outline:hover {
+    color: #563d7c;
+    background-color: white;
+}
+
+.page-header {
+    margin: 0 0 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.card > .highlight {
+    margin: 0 !important;
+}
+
+body > footer {
+    border-top: 1px solid #ddd;
+    background-color: #f7f7f9;
+    padding: 1.2rem 0;
+    font-size: .85rem;
+}
+
+table.table {
+    margin-bottom: 0;
+}
+
+.example-row {
+    display: flex;
+    margin: 0 -5px;
+    margin-bottom: 10px;
+}
+
+.example-row .example {
+    flex: 1 1 50%;
+    background-color: #f7f7f9;
+    margin: 0 5px;
+}
+

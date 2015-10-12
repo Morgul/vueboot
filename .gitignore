@@ -6,3 +6,6 @@
 
 # Node artifacts
 node_modules
+
+# Jekyll artifacts
+_site
