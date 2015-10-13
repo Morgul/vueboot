@@ -1,0 +1,57 @@
+<a class="anchor" id="modal"></a>
+<div class="page-header">
+    <h1>Alerts</h1>
+</div>
+
+<p>Alerts are useful as temporary notifications. Alerts can also be dismissable, either by a button, a timeout, or both.</p>
+<p><b>Note:</b> When an alert is dismissed, it is removed from the dom. However, due to the semantics of <code>v-if</code>, you can get it back simply by toggling the if statement.</p>
+
+<div class="card">
+    <div class="card-header">Example</div>
+    <div class="card-block">
+    </div>
+</div>
+<div class="example-row">
+    <div class="example card" style="font-size: .85rem;">
+        <div class="card-header">HTML</div>
+        {% highlight html %}
+        {% endhighlight %}
+    </div>
+    <div class="example card" style="font-size: .85rem;">
+        <div class="card-header">Javascript</div>
+        {% highlight javascript %}
+        {% endhighlight %}
+    </div>
+</div>
+
+<h2>Component Props</h2>
+<p>
+    We've added some properties to make alerts more dynamic and useful.
+</p>
+<div class="card">
+    <table class="table">
+        <tr>
+            <th>Prop</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>show</td>
+            <td><code>Boolean</code></td>
+            <td><code>false</code></td>
+            <td>This is a two-way binding. When <code>show</code> is <code>true</code>, we open the modal, and when it is <code>false</code> we close the modal.</td>
+        </tr>
+    </table>
+</div>
+<h2>Component Methods</h2>
+<p>
+    In addition to the properties, the alert component exposes methods that can be called. These functions are exposed to
+    the parent, which means that you will want to use <a href="http://rc.vuejs.org/guide/components.html#Child_Component_Refs">v-ref</a>
+    to expose the modal instance to the parent controller.
+</p>
+<ul>
+    <li>
+        <code>dismiss()</code> - dismisses the alert, removing it from the DOM.
+    </li>
+</ul>
