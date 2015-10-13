@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags always come first -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+        <title>Modal Example</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+    </head>
+    <body style="padding-top: 74px;">
+        <nav class="navbar navbar-fixed-top navbar-light bg-faded">
+            <div class="container">
+                <a class="navbar-brand" href="#">Modal Example</a>
+            </div>
+        </nav>
+
+        <!-- Example -->
+        <div id="example" class="container">
+            <button class="btn btn-secondary"
+                    @click="showModal('basicModal')">Open Basic Modal</button>
+
+            <modal v-ref:basic-modal>
+                <div class="modal-header" slot="header">
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body" slot="body">
+                    <p>So, this is a thing.</p>
+                </div>
+                <div class="modal-footer" slot="footer">
+                    <button type="button"
+                            class="btn btn-primary"
+                            @click="hideModal('basicModal')">Save changes</button>
+                    <button type="button"
+                            class="btn btn-secondary"
+                            @click="hideModal('basicModal')">Close</button>
+                </div>
+            </modal>
+        </div>
+
+        <!-- jQuery first, then Bootstrap JS. -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+
+        <!-- Now VueJS, then VueBoot -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.0-beta.4/vue.js"></script>
+        <script src="../dist/vueboot.js"></script>
+
+        <!-- Example App -->
+        <script>
+            var app = new Vue({
+                debug: true,
+                el: '#example',
+                components: {
+                    modal: vueboot.modal
+                },
+                methods: {
+                    showModal: function(name)
+                    {
+                        this.$refs[name].showModal();
+                    },
+                    hideModal: function(name)
+                    {
+                        this.$refs[name].hideModal();
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
