@@ -25,7 +25,11 @@ exports['default'] = {
             'default': true
         },
         keyboard: {
+            type: Boolean,
             'default': true
+        },
+        autoFocus: {
+            type: String
         },
         onClosed: {
             type: Function,
@@ -40,6 +44,9 @@ exports['default'] = {
         hideModal: function hideModal() {
             this.show = false;
             $(this.$el).modal('hide');
+        },
+        refresh: function refresh() {
+            $(this.$el).data('bs.modal').handleUpdate();
         }
     },
     watch: {
@@ -53,6 +60,15 @@ exports['default'] = {
     },
     ready: function ready() {
         var _this = this;
+
+        $(this.$el).on('shown.bs.modal', function () {
+            var autoElem = $(_this.autoFocus);
+            if (autoElem[0]) {
+                autoElem.focus();
+            } else {
+                console.warn('[VueBoot] Autofocus selector \'' + _this.autoFocus + '\' did not select an element.');
+            } // end if
+        });
 
         $(this.$el).on('hidden.bs.modal', function (event) {
             _this.show = false;
