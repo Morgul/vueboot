@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags always come first -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+        <title>Alert Example</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+    </head>
+    <body style="padding-top: 74px;">
+        <nav class="navbar navbar-fixed-top navbar-light bg-faded">
+            <div class="container">
+                <a class="navbar-brand" href="#">Alert Example</a>
+            </div>
+        </nav>
+
+        <!-- Example -->
+        <div id="example" class="container">
+            <h4>Alert Types</h4>
+            <alert type="success">This is a <strong>success</strong> alert.</alert>
+            <alert type="info">This is an <strong>info</strong> alert.</alert>
+            <alert type="warning">This is a <strong>warning</strong> alert.</alert>
+            <alert type="danger">This is a <strong>danger</strong> alert.</alert>
+
+            <h4>No Animation</h4>
+            <alert type="success" :animation="false">This is a <strong>success</strong> alert.</alert>
+
+            <h4>Static</h4>
+            <alert type="info" :dismissible="false">This is a <strong>success</strong> alert.</alert>
+
+            <h4>Timeout</h4>
+            <button class="btn btn-primary" @click="showAlert()">Show Alert</button>
+            <br>
+            <br>
+            <alert v-if="show" type="danger" :timeout="4000" :on-closed="onClosed">This message should time out after 4 seconds.</alert>
+        </div>
+
+        <!-- jQuery first, then Bootstrap JS. -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+
+        <!-- Now VueJS, then VueBoot -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.0-beta.4/vue.js"></script>
+        <script src="../dist/vueboot.js"></script>
+
+        <!-- Example App -->
+        <script>
+            var app = new Vue({
+                debug: true,
+                el: '#example',
+                components: {
+                    alert: vueboot.alert
+                },
+                data: {
+                    show: false
+                },
+                methods: {
+                    showAlert: function(){ this.show = true; },
+                    onClosed: function(){ console.log('onClosed!'); this.show = false; }
+                }
+            });
+        </script>
+    </body>
+</html>
