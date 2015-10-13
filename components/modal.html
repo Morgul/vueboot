@@ -90,6 +90,12 @@
             <td>This is a two-way binding. When <code>show</code> is <code>true</code>, we open the modal, and when it is <code>false</code> we close the modal.</td>
         </tr>
         <tr>
+            <td>autoFocus</td>
+            <td><code>String</code></td>
+            <td></td>
+            <td>A JQuery <a href="https://api.jquery.com/category/selectors/">selector</a> for the element to focus when the modal is shown.</td>
+        </tr>
+        <tr>
             <td>onClosed</td>
             <td><code>Function</code></td>
             <td></td>
@@ -123,5 +129,18 @@
 </div>
 <h2>Component Methods</h2>
 <p>
-    In addition to the properties, the modal component exposes a <code>showModal()</code> function and a <code>hideModal</code> function. These can be used in place of or in addition to the <code>show</code> prop.
+    In addition to the properties, the modal component exposes methods that can be called. These functions are exposed to
+    the parent, which means that you will want to use <a href="http://rc.vuejs.org/guide/components.html#Child_Component_Refs">v-ref</a>
+    to expose the modal instance to the parent controller.
 </p>
+<ul>
+    <li>
+        <code>showModal()</code> - shows the modal, and sets <code>show</code> to <code>true</code>.
+    </li>
+    <li>
+        <code>hideModal()</code> - hides the modal, and sets <code>show</code> to <code>false</code>.
+    </li>
+    <li>
+        <code>refresh()</code> - if the height of the modal changes while it's open, you will need to call this function to update it. (See <a href="http://v4-alpha.getbootstrap.com/components/modal/#modals-with-dynamic-heights">here</a> for more details.)
+    </li>
+</ul>
