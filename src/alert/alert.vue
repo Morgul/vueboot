@@ -33,7 +33,7 @@
             }
         },
         methods: {
-            close: function()
+            dismiss: function()
             {
                 $(this.$el).alert('close');
             }
@@ -42,7 +42,7 @@
         {
             if(this.timeout > -1)
             {
-                setTimeout(() => { this.close() }, this.timeout)
+                setTimeout(() => { this.dismiss() }, this.timeout)
             } // end if
 
             $(this.$el).on('closed.bs.alert', () =>

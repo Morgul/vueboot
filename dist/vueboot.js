@@ -30,7 +30,7 @@ exports['default'] = {
         }
     },
     methods: {
-        close: function close() {
+        dismiss: function dismiss() {
             $(this.$el).alert('close');
         }
     },
@@ -39,7 +39,7 @@ exports['default'] = {
 
         if (this.timeout > -1) {
             setTimeout(function () {
-                _this.close();
+                _this.dismiss();
             }, this.timeout);
         } // end if
 
@@ -132,20 +132,6 @@ module.exports = exports['default'];
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = __vue_template__;
 
 },{}],3:[function(require,module,exports){
-var __vue_template__ = "<ul class=\"nav nav-tabs\" role=\"tablist\">\n        <li class=\"nav-item\">\n            <a class=\"nav-link active\" href=\"#home\" role=\"tab\" data-toggle=\"tab\">Home</a>\n        </li>\n        <li class=\"nav-item\">\n            <a class=\"nav-link\" href=\"#profile\" role=\"tab\" data-toggle=\"tab\">Profile</a>\n        </li>\n        <li class=\"nav-item\">\n            <a class=\"nav-link\" href=\"#messages\" role=\"tab\" data-toggle=\"tab\">Messages</a>\n        </li>\n        <li class=\"nav-item\">\n            <a class=\"nav-link\" href=\"#settings\" role=\"tab\" data-toggle=\"tab\">Settings</a>\n        </li>\n    </ul>\n\n    <!-- Tab panes -->\n    <div class=\"tab-content\">\n        <div role=\"tabpanel\" class=\"tab-pane active\" id=\"home\">...</div>\n        <div role=\"tabpanel\" class=\"tab-pane\" id=\"profile\">...</div>\n        <div role=\"tabpanel\" class=\"tab-pane\" id=\"messages\">...</div>\n        <div role=\"tabpanel\" class=\"tab-pane\" id=\"settings\">...</div>\n    </div>";
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-        value: true
-});
-exports["default"] = {
-        inherit: true,
-        props: {}
-};
-module.exports = exports["default"];
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = __vue_template__;
-
-},{}],4:[function(require,module,exports){
 //----------------------------------------------------------------------------------------------------------------------
 /// Main VueBoot module
 ///
@@ -168,20 +154,15 @@ var _modalModalVue = require("./modal/modal.vue");
 
 var _modalModalVue2 = _interopRequireDefault(_modalModalVue);
 
-var _tabsTabsVue = require("./tabs/tabs.vue");
-
-var _tabsTabsVue2 = _interopRequireDefault(_tabsTabsVue);
-
 //----------------------------------------------------------------------------------------------------------------------
 
 exports["default"] = {
     alert: _alertAlertVue2["default"],
-    modal: _modalModalVue2["default"],
-    tabs: _tabsTabsVue2["default"]
+    modal: _modalModalVue2["default"]
 };
 
 //----------------------------------------------------------------------------------------------------------------------
 module.exports = exports["default"];
 
-},{"./alert/alert.vue":1,"./modal/modal.vue":2,"./tabs/tabs.vue":3}]},{},[4])(4)
+},{"./alert/alert.vue":1,"./modal/modal.vue":2}]},{},[3])(3)
 });
