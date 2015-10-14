@@ -8,10 +8,7 @@ module.exports = function(grunt)
         browserify: {
             dist: {
                 options: {
-                    //alias: {
-                    //    vue: './src/utils/vueShim.js'
-                    //},
-                    banner: "/* Vuestrap v" + require('./package').version + " */",
+                    banner: "/* VueBoot v" + require('./package').version + " */",
                     transform: [ "vueify", "babelify" ],
                     browserifyOptions: {
                         standalone: 'vueboot'
