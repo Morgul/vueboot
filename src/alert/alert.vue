@@ -40,7 +40,7 @@
         },
         ready: function()
         {
-            if(this.timeout > -1)
+            if(this.timeout >= 0)
             {
                 setTimeout(() => { this.dismiss() }, this.timeout)
             } // end if
