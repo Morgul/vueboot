@@ -1,0 +1,29 @@
+{
+  "name": "vueboot",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Morgul/vueboot",
+  "authors": [
+    "Christopher S. Case <chris.case@g33xnexus.com>"
+  ],
+  "description": "Enables or disables animation on modal opening and closing.",
+  "main": "dist/vueboot.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "vue",
+    "bootstrap"
+  ],
+  "ignore": [
+    "package.json",
+    "Gruntfile.js",
+    ".gitignore",
+    "src",
+    "node_modules",
+    "examples",
+    "_site"
+  ],
+  "license": "MIT"
+}
