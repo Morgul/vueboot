@@ -1,25 +1,93 @@
-<a class="anchor" id="modal"></a>
+<a class="anchor" id="alert"></a>
 <div class="page-header">
     <h1>Alerts</h1>
 </div>
 
 <p>Alerts are useful as temporary notifications. Alerts can also be dismissable, either by a button, a timeout, or both.</p>
-<p><b>Note:</b> When an alert is dismissed, it is removed from the dom. However, due to the semantics of <code>v-if</code>, you can get it back simply by toggling the if statement.</p>
+
+<alert type="warning" :dismissible="false"><b>Note:</b> When an alert is dismissed, it is removed from the dom. However, due to the semantics of <code>v-if</code>, you can get it back simply by toggling the if statement.</alert>
 
 <div class="card">
     <div class="card-header">Example</div>
     <div class="card-block">
+        <h4>Alert Types</h4>
+        <alert type="success">This is a <strong>success</strong> alert.</alert>
+        <alert type="info">This is an <strong>info</strong> alert.</alert>
+        <alert type="warning">This is a <strong>warning</strong> alert.</alert>
+        <alert type="danger">This is a <strong>danger</strong> alert.</alert>
+
+        <h4>No Animation</h4>
+        <alert type="success" :animation="false">This is a <strong>success</strong> alert.</alert>
+
+        <h4>Static</h4>
+        <alert type="info" :dismissible="false">This is an <strong>info</strong> alert.</alert>
+
+        <h4>Timeout</h4>
+        <button class="btn btn-primary" @click="showAlert()">Show Alert</button>
+        <br>
+        <br>
+        <alert v-if="showTimedAlert" type="danger" :timeout="4000" :on-closed="onClosed">This message should time out after 4 seconds.</alert>
     </div>
 </div>
 <div class="example-row">
     <div class="example card" style="font-size: .85rem;">
         <div class="card-header">HTML</div>
         {% highlight html %}
+        <h4>Alert Types</h4>
+<alert type="success">
+    This is a <strong>success</strong> alert.
+</alert>
+<alert type="info">
+    This is an <strong>info</strong> alert.
+</alert>
+<alert type="warning">
+    This is a <strong>warning</strong> alert.
+</alert>
+<alert type="danger">
+    This is a <strong>danger</strong> alert.
+</alert>
+
+<h4>No Animation</h4>
+<alert type="success" :animation="false">
+    This is a <strong>success</strong> alert.
+</alert>
+
+<h4>Static</h4>
+<alert type="info" :dismissible="false">
+    This is an <strong>info</strong> alert.
+</alert>
+
+<h4>Timeout</h4>
+<button class="btn btn-primary" @click="showAlert()">Show Alert</button>
+
+<alert v-if="show" type="danger"
+       :timeout="4000"
+       :on-closed="onClosed">
+    This message should time out after 4 seconds.
+</alert>
         {% endhighlight %}
     </div>
     <div class="example card" style="font-size: .85rem;">
         <div class="card-header">Javascript</div>
         {% highlight javascript %}
+var app = new Vue({
+    debug: true,
+    el: '#example',
+    components: {
+        alert: vueboot.alert
+    },
+    data: {
+        show: false
+    },
+    methods: {
+        showAlert: function(){ this.show = true; },
+        onClosed: function()
+        {
+            console.log('onClosed!');
+            this.show = false;
+        }
+    }
+});
         {% endhighlight %}
     </div>
 </div>
@@ -37,18 +105,44 @@
             <th>Description</th>
         </tr>
         <tr>
-            <td>show</td>
+            <td><b>type</b></td>
             <td><code>Boolean</code></td>
             <td><code>false</code></td>
-            <td>This is a two-way binding. When <code>show</code> is <code>true</code>, we open the modal, and when it is <code>false</code> we close the modal.</td>
+            <td>Required. The alert will get the class <code v-pre>"alert-&#123;&#123; type &#125;&#125;</span>"</code>.</td>
+        </tr>
+        <tr>
+            <td>dismissible</td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code></td>
+            <td>Enables or disables the close button.</td>
+        </tr>
+        <tr>
+            <td>animation</td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code></td>
+            <td>Enables or disables animation on the alert dismissing.</td>
+        </tr>
+        <tr>
+            <td>timeout</td>
+            <td><code>Number</code></td>
+            <td><code>-1</code></td>
+            <td>Number of miliseconds before automatically dismissing. Must be <code>0</code> or greater.</td>
+        </tr>
+        <tr>
+            <td>onClosed</td>
+            <td><code>Function</code></td>
+            <td></td>
+            <td>This callback is triggered once the closing animation for the alert has completed.</td>
         </tr>
     </table>
 </div>
 <h2>Component Methods</h2>
+<alert type="warning" :dismissible="false">
+    <b>Note:</b> These functions are exposed to the parent, which means that you will want to use <a class="alert-link" href="http://rc.vuejs.org/guide/components.html#Child_Component_Refs">v-ref</a> to expose the modal instance to the parent controller.
+</alert>
+
 <p>
-    In addition to the properties, the alert component exposes methods that can be called. These functions are exposed to
-    the parent, which means that you will want to use <a href="http://rc.vuejs.org/guide/components.html#Child_Component_Refs">v-ref</a>
-    to expose the modal instance to the parent controller.
+    In addition to the properties, the alert component exposes methods that can be called:
 </p>
 <ul>
     <li>
