@@ -74,14 +74,17 @@
         {
             $(this.$el).on('shown.bs.modal', () =>
             {
-                var autoElem = $(this.autoFocus);
-                if(autoElem[0])
+                if(this.autoFocus)
                 {
-                    autoElem.focus();
-                }
-                else
-                {
-                    console.warn(`[VueBoot] Autofocus selector '${this.autoFocus}' did not select an element.`);
+                    var autoElem = $(this.autoFocus);
+                    if(autoElem[0])
+                    {
+                        autoElem.focus();
+                    }
+                    else
+                    {
+                        console.warn(`[VueBoot] Autofocus selector '${this.autoFocus}' did not select an element.`);
+                    } // end if
                 } // end if
             });
 

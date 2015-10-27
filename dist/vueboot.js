@@ -114,11 +114,13 @@ exports['default'] = {
         var _this = this;
 
         $(this.$el).on('shown.bs.modal', function () {
-            var autoElem = $(_this.autoFocus);
-            if (autoElem[0]) {
-                autoElem.focus();
-            } else {
-                console.warn('[VueBoot] Autofocus selector \'' + _this.autoFocus + '\' did not select an element.');
+            if (_this.autoFocus) {
+                var autoElem = $(_this.autoFocus);
+                if (autoElem[0]) {
+                    autoElem.focus();
+                } else {
+                    console.warn('[VueBoot] Autofocus selector \'' + _this.autoFocus + '\' did not select an element.');
+                } // end if
             } // end if
         });
 
