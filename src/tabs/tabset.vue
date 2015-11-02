@@ -1,0 +1,76 @@
+<template>
+    <div class="tabset clearfix" :class="orientationClass()">
+        <!-- Nav tabs -->
+        <ul v-if="orientation != 'bottom'" class="nav nav-tabs" role="tablist">
+            <li class="nav-item" v-for="tab in tabs">
+                <a class="nav-link" :class="{ active: tab.active, disabled: tab.disabled }" href="#{{ $index }}" role="tab" data-toggle="tab" @click.stop.prevent="activateTab($index)">{{{ tab.header }}}</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <slot></slot>
+        </div>
+
+        <!-- Nav tabs -->
+        <ul v-if="orientation == 'bottom'" class="nav nav-tabs" role="tablist">
+            <li class="nav-item" v-for="tab in tabs">
+                <a class="nav-link" :class="{ active: tab.active, disabled: tab.disabled }" href="#{{ $index }}" role="tab" data-toggle="tab" @click.stop.prevent="activateTab($index)">{{{ tab.header }}}</a>
+            </li>
+        </ul>
+    </div>
+</template>
+
+<style lang="sass" src="./tabs.scss"></style>
+
+<script type="text/babel">
+    export default {
+        props: {
+            orientation: {
+                type: String,
+                default: 'top'
+            }
+        },
+        data: function()
+        {
+            return {
+                tabs: []
+            };
+        },
+        methods: {
+            orientationClass: function()
+            {
+                return 'tabs-' + this.orientation;
+            },
+            activateTab: function(index)
+            {
+                var tab = this.tabs[index];
+
+                console.log('tab:', tab);
+                if(tab && !tab.disabled)
+                {
+                    if(index == 'first')
+                    {
+                        index = 0;
+                    }
+                    else if(index == 'last')
+                    {
+                        index = this.tabs.length - 1;
+                    } // end if
+
+                    this.tabs.forEach(function(tab, idx)
+                    {
+                        tab.active = idx === index;
+                    });
+                } // end if
+            },
+            registerTab: function(tab)
+            {
+                tab.id = this.tabs.length;
+                tab.active = this.tabs.length === 0;
+
+                this.tabs.push(tab);
+            }
+        }
+    }
+</script>

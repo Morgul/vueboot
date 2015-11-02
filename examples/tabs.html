@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags always come first -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+        <title>Tab Example</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    </head>
+    <body style="padding-top: 74px;">
+        <nav class="navbar navbar-fixed-top navbar-light bg-faded">
+            <div class="container">
+                <a class="navbar-brand" href="#">Tab Example</a>
+            </div>
+        </nav>
+
+        <!-- Example -->
+        <div id="example" class="container">
+
+            <h4>Simple Tabs</h4>
+            <tabs>
+                <tab :header="'Tab 1'">
+                    This is Tab 1.
+                </tab>
+                <tab :header="'Tab 2'">
+                    This is Tab 2.
+                </tab>
+                <tab :header="'Tab 3'">
+                    This is Tab 3.
+                </tab>
+            </tabs>
+
+            <br>
+
+            <h4>Kitchen Sink</h4>
+            <tabs>
+                <tab :header="'Tab 1'">
+                    <p><b>Bacon ipsum dolor amet</b> pariatur andouille bacon, dolore filet mignon id in corned beef et. Venison kielbasa sausage spare ribs ball tip, eu landjaeger drumstick meatball. Leberkas dolore biltong, incididunt tenderloin nulla ground round aute salami exercitation ad consequat. Kevin landjaeger laborum sunt quis ball tip. Ipsum ut aliquip, esse sirloin incididunt boudin turducken picanha turkey.</p>
+                    <h4>Qui corned beef</h4>
+                    <p>Qui tri-tip tail, ullamco tongue picanha corned beef laboris salami minim chicken. Exercitation ullamco in pig. Turkey incididunt andouille corned beef ham ham hock. Shankle esse ball tip dolore. Cupim jerky officia do id sint.</p>
+                </tab>
+                <tab>
+                    <header>
+                        <i class="fa fa-ge"></i> <i>HTML</i> Tab <s>Header</s>
+                    </header>
+                    <p>I need your help, Luke. She needs your help. I'm getting too old for this sort of thing. But with the blast shield down, I can't even see! How am I supposed to fight? I suggest you try it again, Luke. This time, let go your conscious self and act on instinct.</p>
+                    <h4>I find your lack of faith disturbing.</h4>
+                    <p>What!? Look, I can take you as far as Anchorhead. You can get a transport there to Mos Eisley or wherever you're going. I have traced the Rebel spies to her. Now she is my only link to finding their secret base.</p>
+                </tab>
+                <tab :on-selected="showAlert">
+                    <header>
+                        <i class="fa fa-bell"></i>
+                        Alert!
+                    </header>
+                    <p>As an interesting side note, as a head without a body, I envy the dead. <strong> I'll get my kit!</strong> <em> I videotape every customer that comes in here, so that I may blackmail them later.</em> We don't have a brig.</p>
+                    <h4>Hey! I'm a porno-dealing monster, what do I care what you think?</h4>
+                    <p>I guess if you want children beaten, you have to do it yourself. Okay, it's 500 dollars, you have no choice of carrier, the battery can't hold the charge and the reception isn't very… Oh right. I forgot about the battle.</p>
+                </tab>
+                <tab :header="'Disabled'" :disabled="true">
+                    Should not see me.
+                </tab>
+            </tabs>
+
+            <br>
+            <h4>Tabs in Cards</h4>
+            <div class="card">
+                <tabs>
+                    <tab :header="'Tab 1'">
+                        <p><b>Bacon ipsum dolor amet</b> pariatur andouille bacon, dolore filet mignon id in corned beef et. Venison kielbasa sausage spare ribs ball tip, eu landjaeger drumstick meatball. Leberkas dolore biltong, incididunt tenderloin nulla ground round aute salami exercitation ad consequat. Kevin landjaeger laborum sunt quis ball tip. Ipsum ut aliquip, esse sirloin incididunt boudin turducken picanha turkey.</p>
+                        <h4>Qui corned beef</h4>
+                        <p>Qui tri-tip tail, ullamco tongue picanha corned beef laboris salami minim chicken. Exercitation ullamco in pig. Turkey incididunt andouille corned beef ham ham hock. Shankle esse ball tip dolore. Cupim jerky officia do id sint.</p>
+                    </tab>
+                    <tab :header="'Tab 2'">
+                        This is Tab 2.
+                    </tab>
+                    <tab :header="'Tab 3'">
+                        This is Tab 3.
+                    </tab>
+                </tabs>
+            </div>
+
+            <h4>Tabs Left</h4>
+            <div class="card">
+                <tabs :orientation="'left'">
+                    <tab :header="'Tab 1'">
+                        This is Tab 1.
+                    </tab>
+                    <tab :header="'Tab 2'">
+                        This is Tab 2.
+                    </tab>
+                    <tab :header="'Tab 3'">
+                        This is Tab 3.
+                    </tab>
+                </tabs>
+            </div>
+
+            <br>
+
+            <h4>Tabs right</h4>
+            <div class="card">
+                <tabs :orientation="'right'">
+                    <tab :header="'Tab 1'">
+                        This is Tab 1.
+                    </tab>
+                    <tab :header="'Tab 2'">
+                        This is Tab 2.
+                    </tab>
+                    <tab :header="'Tab 3'">
+                        This is Tab 3.
+                    </tab>
+                </tabs>
+            </div>
+
+            <h4>Tabs bottom</h4>
+            <div class="card">
+                <tabs :orientation="'bottom'">
+                    <tab :header="'Tab 1'">
+                        This is Tab 1.
+                    </tab>
+                    <tab :header="'Tab 2'">
+                        This is Tab 2.
+                    </tab>
+                    <tab :header="'Tab 3'">
+                        This is Tab 3.
+                    </tab>
+                </tabs>
+            </div>
+        </div>
+
+        <!-- jQuery first, then Bootstrap JS. -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+
+        <!-- Now VueJS, then VueBoot -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.0-beta.4/vue.js"></script>
+        <script src="../dist/vueboot.js"></script>
+
+        <!-- Example App -->
+        <script>
+            var app = new Vue({
+                debug: true,
+                el: '#example',
+                components: {
+                    tabs: vueboot.tabs,
+                    tab: vueboot.tab
+                },
+                methods: {
+                    showAlert: function()
+                    {
+                        alert('Got Clicked!');
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,163 @@
+//----------------------------------------------------------------------------------------------------------------------
+// Tab Styles
+//----------------------------------------------------------------------------------------------------------------------
+
+.card .tabset {
+    .nav-tabs {
+        padding-top: 1.25rem;
+        padding-left: 1.25rem;
+    }
+
+    .tab-content {
+        padding: .5rem 1.25rem 1.25rem;
+    }
+
+    &.tabs-left {
+        .tab-content {
+            padding: 1.25rem;
+        }
+    }
+
+    &.tabs-right {
+        .nav-tabs {
+            padding-top: 1.25rem;
+            padding-left: 0;
+            padding-right: 1.25rem;
+        }
+        .tab-content {
+            padding: 1.25rem;
+        }
+    }
+
+    &.tabs-bottom {
+        .nav-tabs {
+            padding-top: 0;
+            padding-bottom: 1.25rem;
+            padding-left: 1.25rem;
+        }
+        .tab-content {
+            padding: 1.25rem 1.25rem .5rem 1.25rem;
+        }
+    }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// Stacked Tabs in Bootstrap 4 (modified from Bootstrap 3)
+//      see: http://stackoverflow.com/questions/18432577/stacked-tabs-in-bootstrap-3
+//----------------------------------------------------------------------------------------------------------------------
+
+.tabs-bottom, .tabs-right, .tabs-left {
+    .nav-tabs {
+        border-bottom: 0;
+    }
+}
+
+.tab-content > .tab-pane,
+.pill-content > .pill-pane {
+    display: none;
+}
+
+.tab-content > .active,
+.pill-content > .active {
+    display: block;
+}
+
+.tabs-bottom {
+    > .nav-tabs {
+        border-top: 1px solid #ddd;
+
+        > li {
+            margin-top: -1px;
+            margin-bottom: 0;
+
+            > a {
+                -webkit-border-radius: 0 0 4px 4px;
+                -moz-border-radius: 0 0 4px 4px;
+                border-radius: 0 0 4px 4px;
+
+                &:hover, &:focus {
+                    border-bottom-color: #ddd;
+                    border-top-color: transparent;
+                }
+
+                &.active {
+                    &, &:hover, &:focus {
+                        border-color: transparent #ddd #ddd #ddd;
+                        *border-top-color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.tabs-left, .tabs-right {
+    > .nav-tabs > li {
+        float: none;
+
+        > a {
+            min-width: 74px;
+            margin-right: 0;
+            margin-bottom: 3px;
+        }
+    }
+
+    .nav-tabs .nav-item + .nav-item {
+        margin-left: 0;
+    }
+}
+
+.tabs-left > .nav-tabs {
+    float: left;
+    margin-right: 19px;
+    border-right: 1px solid #ddd;
+
+    > li > a {
+        margin-right: -1px;
+        -webkit-border-radius: 4px 0 0 4px;
+        -moz-border-radius: 4px 0 0 4px;
+        border-radius: 4px 0 0 4px;
+
+        &:hover, &:focus {
+            border-color: #eee #ddd #eee #eee;
+        }
+
+        &.active {
+            &, &:hover, &:focus {
+                border-color: #ddd transparent #ddd #ddd;
+                *border-right-color: #fff;
+            }
+        }
+    }
+}
+
+.tabs-right > .nav-tabs {
+    float: right;
+    margin-left: 19px;
+    border-left: 1px solid #ddd;
+
+    > li > a {
+        margin-left: -1px;
+        -webkit-border-radius: 0 4px 4px 0;
+        -moz-border-radius: 0 4px 4px 0;
+        border-radius: 0 4px 4px 0;
+
+        &:hover, &:focus {
+            border-color: #eee #eee #eee #ddd;
+        }
+
+        &.active {
+            &, &:hover, &:focus {
+                border-color: #ddd #ddd #ddd transparent;
+                *border-left-color: #fff;
+            }
+        }
+    }
+}
+
+.tabs-left .tab-pane,
+.tabs-right .tab-pane {
+    overflow-y: auto;
+}
+
+//----------------------------------------------------------------------------------------------------------------------

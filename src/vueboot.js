@@ -6,12 +6,16 @@
 
 import alert from "./alert/alert.vue";
 import modal from "./modal/modal.vue";
+import tabs from "./tabs/tabset.vue";
+import tab from "./tabs/tab.vue";
 
 //----------------------------------------------------------------------------------------------------------------------
 
 export default {
     alert,
-    modal
+    modal,
+    tabs,
+    tab
 };
 
 //----------------------------------------------------------------------------------------------------------------------
