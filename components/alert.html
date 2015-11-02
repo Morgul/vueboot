@@ -5,7 +5,11 @@
 
 <p>Alerts are useful as temporary notifications. Alerts can also be dismissable, either by a button, a timeout, or both.</p>
 
-<alert type="warning" :dismissible="false"><b>Note:</b> When an alert is dismissed, it is removed from the dom. However, due to the semantics of <code>v-if</code>, you can get it back simply by toggling the if statement.</alert>
+<alert type="warning" :dismissible="false">
+    <b>Dismissal</b>
+    <br>
+    When an alert is dismissed, it is removed from the dom. However, due to the semantics of <code>v-if</code>, you can get it back simply by toggling the if statement.
+</alert>
 
 <div class="card">
     <div class="card-header">Example</div>
@@ -138,7 +142,9 @@ var app = new Vue({
 </div>
 <h2>Component Methods</h2>
 <alert type="warning" :dismissible="false">
-    <b>Note:</b> These functions are exposed to the parent, which means that you will want to use <a class="alert-link" href="http://rc.vuejs.org/guide/components.html#Child_Component_Refs">v-ref</a> to expose the modal instance to the parent controller.
+    <b>Reference Required</b>
+    <br>
+    These functions are exposed to the parent, which means that you will want to use <a class="alert-link" href="http://rc.vuejs.org/guide/components.html#Child_Component_Refs">v-ref</a> to expose the modal instance to the parent controller.
 </alert>
 
 <p>

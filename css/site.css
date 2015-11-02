@@ -46,6 +46,7 @@ table.table {
 }
 
 .example-row .example {
+    max-width: 70%;
     flex: 1 1 50%;
     background-color: #f7f7f9;
     margin: 0 5px;
