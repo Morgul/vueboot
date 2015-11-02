@@ -1,7 +1,7 @@
 <template>
     <div class="tabset clearfix" :class="orientationClass()">
         <!-- Nav tabs -->
-        <ul v-if="orientation != 'bottom'" class="nav nav-tabs" role="tablist">
+        <ul v-if="orientation != 'bottom' && orientation != 'right'" class="nav nav-tabs" role="tablist">
             <li class="nav-item" v-for="tab in tabs">
                 <a class="nav-link" :class="{ active: tab.active, disabled: tab.disabled }" href="#{{ $index }}" role="tab" data-toggle="tab" @click.stop.prevent="activateTab($index)">{{{ tab.header }}}</a>
             </li>
@@ -13,7 +13,7 @@
         </div>
 
         <!-- Nav tabs -->
-        <ul v-if="orientation == 'bottom'" class="nav nav-tabs" role="tablist">
+        <ul v-if="orientation == 'bottom' || orientation == 'right'" class="nav nav-tabs" role="tablist">
             <li class="nav-item" v-for="tab in tabs">
                 <a class="nav-link" :class="{ active: tab.active, disabled: tab.disabled }" href="#{{ $index }}" role="tab" data-toggle="tab" @click.stop.prevent="activateTab($index)">{{{ tab.header }}}</a>
             </li>
@@ -46,7 +46,6 @@
             {
                 var tab = this.tabs[index];
 
-                console.log('tab:', tab);
                 if(tab && !tab.disabled)
                 {
                     if(index == 'first')

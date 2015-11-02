@@ -13,8 +13,11 @@
     }
 
     &.tabs-left {
+        .nav-tabs {
+            padding-bottom: 1.25rem;
+        }
         .tab-content {
-            padding: 1.25rem;
+            padding: 1.25rem 1.25rem 1.25rem 0;
         }
     }
 
@@ -23,9 +26,10 @@
             padding-top: 1.25rem;
             padding-left: 0;
             padding-right: 1.25rem;
+            padding-bottom: 1.25rem;
         }
         .tab-content {
-            padding: 1.25rem;
+            padding: 1.25rem 0 1.25rem 1.25rem;
         }
     }
 
@@ -92,6 +96,18 @@
 }
 
 .tabs-left, .tabs-right {
+    display: flex;
+
+    > .nav-tabs {
+        flex: 1 1 auto;
+        white-space: nowrap;
+        float: none;
+    }
+
+    .tab-content {
+        flex: 1 1 100%;
+    }
+
     > .nav-tabs > li {
         float: none;
 
