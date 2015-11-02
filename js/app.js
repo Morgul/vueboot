@@ -22,11 +22,17 @@ var app = new Vue({
         {
             console.log('onClosed!');
             this.showTimedAlert = false;
+        },
+        showAlertTab: function()
+        {
+            alert('Got Clicked!');
         }
     },
     components: {
         alert: vueboot.alert,
-        modal: vueboot.modal
+        modal: vueboot.modal,
+        tabset: vueboot.tabs,
+        tab: vueboot.tab
     }
 });
 

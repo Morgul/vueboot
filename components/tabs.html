@@ -1,0 +1,358 @@
+<a class="anchor" id="tabs"></a>
+<div class="page-header">
+    <h1>Tabs</h1>
+</div>
+
+<p>
+    Tabs are a frequently used tool to separate related but distinct sections of information. VueBoot's tabs are designed
+    to work well inside existing containers, such as cards. Additionally, we include extra styling beyond the Bootstrap
+    default to allow tabs in various orientations.
+</p>
+<alert type="info" :dismissible="false">
+    <b>Multiple Components Required</b>
+    <br>
+    In order to use tabs, you will need to include both the <code>tabset</code> component and the <code>tab</code> component.
+</alert>
+<alert type="warning" :dismissible="false">
+    <b>Cards Support</b>
+    <br>
+    VueBoot includes custom styling to allow tabs inside of <code>.card</code> blocks. However, this styling assumes
+    the tabset is the only element contained inside. Use at your own risk.
+</alert>
+
+<div class="card">
+    <div class="card-header">Example</div>
+    <div class="card-block">
+        <h4>Simple Tabs</h4>
+        <tabset>
+            <tab :header="'Tab 1'">
+                This is Tab 1.
+            </tab>
+            <tab :header="'Tab 2'">
+                This is Tab 2.
+            </tab>
+            <tab :header="'Tab 3'">
+                This is Tab 3.
+            </tab>
+        </tabset>
+
+        <h4>Kitchen Sink</h4>
+        <tabset>
+            <tab :header="'Tab 1'">
+                <p><b>Bacon ipsum dolor amet</b> pariatur andouille bacon, dolore filet mignon id in corned beef et. Venison kielbasa sausage spare ribs ball tip, eu landjaeger drumstick meatball. Leberkas dolore biltong, incididunt tenderloin nulla ground round aute salami exercitation ad consequat. Kevin landjaeger laborum sunt quis ball tip. Ipsum ut aliquip, esse sirloin incididunt boudin turducken picanha turkey.</p>
+                <h4>Qui corned beef</h4>
+                <p>Qui tri-tip tail, ullamco tongue picanha corned beef laboris salami minim chicken. Exercitation ullamco in pig. Turkey incididunt andouille corned beef ham ham hock. Shankle esse ball tip dolore. Cupim jerky officia do id sint.</p>
+            </tab>
+            <tab>
+                <header>
+                    <i class="fa fa-ge"></i> <i>HTML</i> Tab <s>Header</s>
+                </header>
+                <p>I need your help, Luke. She needs your help. I'm getting too old for this sort of thing. But with the blast shield down, I can't even see! How am I supposed to fight? I suggest you try it again, Luke. This time, let go your conscious self and act on instinct.</p>
+                <h4>I find your lack of faith disturbing.</h4>
+                <p>What!? Look, I can take you as far as Anchorhead. You can get a transport there to Mos Eisley or wherever you're going. I have traced the Rebel spies to her. Now she is my only link to finding their secret base.</p>
+            </tab>
+            <tab :on-selected="showAlertTab">
+                <header>
+                    <i class="fa fa-bell"></i>
+                    Alert!
+                </header>
+                <p>As an interesting side note, as a head without a body, I envy the dead. <strong> I'll get my kit!</strong> <em> I videotape every customer that comes in here, so that I may blackmail them later.</em> We don't have a brig.</p>
+                <h4>Hey! I'm a porno-dealing monster, what do I care what you think?</h4>
+                <p>I guess if you want children beaten, you have to do it yourself. Okay, it's 500 dollars, you have no choice of carrier, the battery can't hold the charge and the reception isn't very… Oh right. I forgot about the battle.</p>
+            </tab>
+            <tab :header="'Disabled'" :disabled="true">
+                Should not see me.
+            </tab>
+        </tabset>
+
+        <h4>Tabs in Cards</h4>
+        <div class="card">
+            <tabset>
+                <tab :header="'Tab 1'">
+                    <p><b>Bacon ipsum dolor amet</b> pariatur andouille bacon, dolore filet mignon id in corned beef et. Venison kielbasa sausage spare ribs ball tip, eu landjaeger drumstick meatball. Leberkas dolore biltong, incididunt tenderloin nulla ground round aute salami exercitation ad consequat. Kevin landjaeger laborum sunt quis ball tip. Ipsum ut aliquip, esse sirloin incididunt boudin turducken picanha turkey.</p>
+                    <h4>Qui corned beef</h4>
+                    <p>Qui tri-tip tail, ullamco tongue picanha corned beef laboris salami minim chicken. Exercitation ullamco in pig. Turkey incididunt andouille corned beef ham ham hock. Shankle esse ball tip dolore. Cupim jerky officia do id sint.</p>
+                </tab>
+                <tab :header="'Tab 2'">
+                    This is Tab 2.
+                </tab>
+                <tab :header="'Tab 3'">
+                    This is Tab 3.
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>
+<div class="example-row">
+    <div class="example card" style="font-size: .85rem;">
+        <div class="card-header">HTML</div>
+        {% highlight html %}
+        <h4>Simple Tabs</h4>
+<tabset>
+    <tab :header="'Tab 1'">
+        This is Tab 1.
+    </tab>
+    <tab :header="'Tab 2'">
+        This is Tab 2.
+    </tab>
+    <tab :header="'Tab 3'">
+        This is Tab 3.
+    </tab>
+</tabset>
+
+<h4>Kitchen Sink</h4>
+<tabset>
+    <tab :header="'Tab 1'">
+        <p><b>Bacon ipsum dolor amet</b> pariatur andouille bacon, dolore filet mignon id in corned beef et. Venison kielbasa sausage spare ribs ball tip, eu landjaeger drumstick meatball. Leberkas dolore biltong, incididunt tenderloin nulla ground round aute salami exercitation ad consequat. Kevin landjaeger laborum sunt quis ball tip. Ipsum ut aliquip, esse sirloin incididunt boudin turducken picanha turkey.</p>
+        <h4>Qui corned beef</h4>
+        <p>Qui tri-tip tail, ullamco tongue picanha corned beef laboris salami minim chicken. Exercitation ullamco in pig. Turkey incididunt andouille corned beef ham ham hock. Shankle esse ball tip dolore. Cupim jerky officia do id sint.</p>
+    </tab>
+    <tab>
+        <header>
+            <i class="fa fa-ge"></i> <i>HTML</i> Tab <s>Header</s>
+        </header>
+        <p>I need your help, Luke. She needs your help. I'm getting too old for this sort of thing. But with the blast shield down, I can't even see! How am I supposed to fight? I suggest you try it again, Luke. This time, let go your conscious self and act on instinct.</p>
+        <h4>I find your lack of faith disturbing.</h4>
+        <p>What!? Look, I can take you as far as Anchorhead. You can get a transport there to Mos Eisley or wherever you're going. I have traced the Rebel spies to her. Now she is my only link to finding their secret base.</p>
+    </tab>
+    <tab :on-selected="showAlert">
+        <header>
+            <i class="fa fa-bell"></i>
+            Alert!
+        </header>
+        <p>As an interesting side note, as a head without a body, I envy the dead. <strong> I'll get my kit!</strong> <em> I videotape every customer that comes in here, so that I may blackmail them later.</em> We don't have a brig.</p>
+        <h4>Hey! I'm a porno-dealing monster, what do I care what you think?</h4>
+        <p>I guess if you want children beaten, you have to do it yourself. Okay, it's 500 dollars, you have no choice of carrier, the battery can't hold the charge and the reception isn't very… Oh right. I forgot about the battle.</p>
+    </tab>
+    <tab :header="'Disabled'" :disabled="true">
+        Should not see me.
+    </tab>
+</tabset>
+
+<h4>Tabs in Cards</h4>
+<div class="card">
+    <tabset>
+        <tab :header="'Tab 1'">
+            <p><b>Bacon ipsum dolor amet</b> pariatur andouille bacon, dolore filet mignon id in corned beef et. Venison kielbasa sausage spare ribs ball tip, eu landjaeger drumstick meatball. Leberkas dolore biltong, incididunt tenderloin nulla ground round aute salami exercitation ad consequat. Kevin landjaeger laborum sunt quis ball tip. Ipsum ut aliquip, esse sirloin incididunt boudin turducken picanha turkey.</p>
+            <h4>Qui corned beef</h4>
+            <p>Qui tri-tip tail, ullamco tongue picanha corned beef laboris salami minim chicken. Exercitation ullamco in pig. Turkey incididunt andouille corned beef ham ham hock. Shankle esse ball tip dolore. Cupim jerky officia do id sint.</p>
+        </tab>
+        <tab :header="'Tab 2'">
+            This is Tab 2.
+        </tab>
+        <tab :header="'Tab 3'">
+            This is Tab 3.
+        </tab>
+    </tabset>
+</div>
+        {% endhighlight %}
+    </div>
+    <div class="example card" style="font-size: .85rem;">
+        <div class="card-header">Javascript</div>
+        {% highlight javascript %}
+        var app = new Vue({
+    debug: true,
+    el: '#example',
+    components: {
+        tabs: vueboot.tabs,
+        tab: vueboot.tab
+    },
+    methods: {
+        showAlert: function()
+        {
+            alert('Got Clicked!');
+        }
+    }
+});
+        {% endhighlight %}
+    </div>
+</div>
+
+<h2>Multiple Orientations</h2>
+<p>
+    The tabs component supports multiple orientations for it's tabs. These are set with the <code>orientation</code> property.
+</p>
+<div class="card">
+    <div class="card-header">Example</div>
+    <div class="card-block">
+        <h4>Tabs Left</h4>
+        <tabset :orientation="'left'">
+            <tab :header="'Tab 1'">
+                This is Tab 1.
+            </tab>
+            <tab :header="'Tab 2'">
+                This is Tab 2.
+            </tab>
+            <tab :header="'Tab 3'">
+                This is Tab 3.
+            </tab>
+        </tabset>
+
+        <br>
+
+        <h4>Tabs right</h4>
+        <tabset :orientation="'right'">
+            <tab :header="'Tab 1'">
+                This is Tab 1.
+            </tab>
+            <tab :header="'Tab 2'">
+                This is Tab 2.
+            </tab>
+            <tab :header="'Tab 3'">
+                This is Tab 3.
+            </tab>
+        </tabset>
+
+        <br>
+
+        <h4>Tabs bottom</h4>
+        <tabset :orientation="'bottom'">
+            <tab :header="'Tab 1'">
+                This is Tab 1.
+            </tab>
+            <tab :header="'Tab 2'">
+                This is Tab 2.
+            </tab>
+            <tab :header="'Tab 3'">
+                This is Tab 3.
+            </tab>
+        </tabset>
+    </div>
+</div>
+<div class="example-row">
+    <div class="example card" style="font-size: .85rem;">
+        <div class="card-header">HTML</div>
+        {% highlight html %}
+        <h4>Tabs Left</h4>
+<tabset :orientation="'left'">
+    <tab :header="'Tab 1'">
+        This is Tab 1.
+    </tab>
+    <tab :header="'Tab 2'">
+        This is Tab 2.
+    </tab>
+    <tab :header="'Tab 3'">
+        This is Tab 3.
+    </tab>
+</tabset>
+
+<br>
+
+<h4>Tabs right</h4>
+<tabset :orientation="'right'">
+    <tab :header="'Tab 1'">
+        This is Tab 1.
+    </tab>
+    <tab :header="'Tab 2'">
+        This is Tab 2.
+    </tab>
+    <tab :header="'Tab 3'">
+        This is Tab 3.
+    </tab>
+</tabset>
+
+<br>
+
+<h4>Tabs bottom</h4>
+<tabset :orientation="'bottom'">
+    <tab :header="'Tab 1'">
+        This is Tab 1.
+    </tab>
+    <tab :header="'Tab 2'">
+        This is Tab 2.
+    </tab>
+    <tab :header="'Tab 3'">
+        This is Tab 3.
+    </tab>
+</tabset>
+        {% endhighlight %}
+    </div>
+    <div class="example card" style="font-size: .85rem;">
+        <div class="card-header">Javascript</div>
+        {% highlight javascript %}
+        var app = new Vue({
+    debug: true,
+    el: '#example',
+    components: {
+        tabs: vueboot.tabs,
+        tab: vueboot.tab
+    },
+    methods: {
+        showAlert: function()
+        {
+            alert('Got Clicked!');
+        }
+    }
+});
+        {% endhighlight %}
+    </div>
+</div>
+
+<h2>Tabset Props</h2>
+<p>
+    These properties are supported on the <code>tabset</code> component.
+</p>
+<div class="card">
+    <table class="table">
+        <tr>
+            <th>Prop</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>orientation</td>
+            <td><code>String</code></td>
+            <td><code>top</code></td>
+            <td>Specifies the tab orientation. Values are: <code>'top'</code>, <code>'bottom'</code>, <code>'left'</code>, and <code>'right'</code>.</td>
+        </tr>
+    </table>
+</div>
+
+<h2>Tab Props</h2>
+<alert type="info" :dismissible="false">
+    <b>Alternative Syntax</b>
+    <br>
+    Instead of specifying the <code>header</code> property, you can use a <code>&lt;header&gt;...&lt;/header&gt;</code> block. This block <b>must</b> be the first element in the tab.
+</alert>
+<p>
+    These properties are supported on the <code>tab</code> component.
+</p>
+<div class="card">
+    <table class="table">
+        <tr>
+            <th>Prop</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>header</td>
+            <td><code>String</code></td>
+            <td></td>
+            <td>Sets the title of the tab. (Supports HTML)</td>
+        </tr>
+        <tr>
+            <td>on-selected</td>
+            <td><code>Function</code></td>
+            <td></td>
+            <td>A function that is called when a given tab is selected.</td>
+        </tr>
+    </table>
+</div>
+
+<h2>Component Methods</h2>
+<alert type="warning" :dismissible="false">
+    <b>Reference Required</b>
+    <br>
+    These functions are exposed to the parent, which means that you will want to use <a class="alert-link" href="http://rc.vuejs.org/guide/components.html#Child_Component_Refs">v-ref</a> to expose the modal instance to the parent controller.
+</alert>
+
+<p>
+    The following functions may be called on the <code>tabs</code> instance:
+</p>
+<ul>
+    <li>
+        <code>activateTab(index)</code> - activates the tab specified by <code>index</code>. Additionally supports the string <code>'first'</code> and <code>'last'</code>.
+    </li>
+</ul>
