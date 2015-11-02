@@ -31,7 +31,7 @@ var app = new Vue({
     components: {
         alert: vueboot.alert,
         modal: vueboot.modal,
-        tabset: vueboot.tabs,
+        tabset: vueboot.tabset,
         tab: vueboot.tab
     }
 });
