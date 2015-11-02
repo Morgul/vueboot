@@ -10,11 +10,12 @@ module.exports = function(grunt)
                 options: {
                     banner: "/* VueBoot v" + require('./package').version + " */",
                     transform: [ "vueify", "babelify" ],
+                    external: ['vue'],
                     plugin: [
                         [ "browserify-derequire" ]
                     ],
                     browserifyOptions: {
-                        bundleExternal: false,
+                        //bundleExternal: false,
                         standalone: 'vueboot'
                     }
                 },

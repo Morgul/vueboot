@@ -14,6 +14,7 @@
   "license": "MIT",
   "devDependencies": {
     "babel": "^5.8.23",
+    "babel-runtime": "^5.8.29",
     "babelify": "^6.3.0",
     "browserify": "^11.2.0",
     "browserify-derequire": "^0.9.4",
@@ -22,8 +23,10 @@
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
     "insert-css": "^0.2.0",
-    "node-sass": "^3.3.3",
-    "vueify": "^1.1.5"
+    "node-sass": "^3.4.1",
+    "vue-hot-reload-api": "^1.2.1",
+    "vueify": "^5.0.2",
+    "vueify-insert-css": "^1.0.0"
   },
   "dependencies": {
     "bluebird": "^2.10.1",

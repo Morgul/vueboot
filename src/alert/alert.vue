@@ -8,7 +8,7 @@
     </div>
 </template>
 
-<script type="text/babel" lang="es6">
+<script type="text/babel">
     export default {
         props: {
             type: {
