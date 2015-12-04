@@ -1,5 +1,5 @@
 <template>
-    <div class="alert alert-{{ type }}" :class="{ 'alert-dismissible': dismissible, fade: animation, in: animation }" role="alert">
+    <div class="alert" :class="'alert-' + type" :class="{ 'alert-dismissible': dismissible, fade: animation, in: animation }" role="alert">
         <button v-if="dismissible" type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             <span class="sr-only">Close</span>
