@@ -1,0 +1,114 @@
+<a class="anchor" id="toast"></a>
+<div class="page-header">
+    <h1>Toast</h1>
+</div>
+
+<p>
+    Toast are alerts that pop up over top of content on the page, as a way of alerting users to important events.
+</p>
+
+<alert type="info" :dismissible="false">
+    <b>Service Required</b>
+    <br>
+    The functionality of this component relies on a javascript service. The <code>toastService</code> must be included
+    in your code, if you want to use toasts.
+</alert>
+<alert type="warning" :dismissible="false">
+    <b>Custom CSS Required</b>
+    <br>
+    By default, VueBoot does not put css styling on the <code>.toast-container</code> class. This is left up to the user
+    to decide where on the page they want their toasts, as well as if they want them 'always on top' of other content.
+</alert>
+
+<!-- Styling for the example -->
+<style>
+    .toast-container {
+        margin-top: 10px;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header">Example</div>
+    <div class="card-block" style="min-height: 300px">
+        <div class="btn-toolbar">
+            <button class="btn btn-primary" @click="createToast('Default Alert!!!!')">Create Default Toast</button>
+            <button class="btn btn-warning" @click="createToast({ type: 'warning', content: '<b>Warning!</b> This is a warning!' })">Create Warning Toast</button>
+            <button class="btn btn-success" @click="createToast({ type: 'success', dismissible: true, content: 'Dismiss me with a button.', timeout: false })">Create Dismissible Toast</button>
+        </div>
+        <toast></toast>
+    </div>
+</div>
+<div class="example-row">
+    <div class="example card" style="font-size: .85rem;">
+        <div class="card-header">HTML</div>
+        {% highlight html %}
+<div class="btn-toolbar">
+    <button class="btn btn-primary"
+            @click="createToast('Default Alert!!!!')">
+        Create Default Toast
+    </button>
+    <button class="btn btn-warning"
+            @click="createToast({ type: 'warning', content: '<b>Warning!</b> This is a warning!' })">
+        Create Warning Toast
+    </button>
+    <button class="btn btn-success"
+            @click="createToast({ type: 'success', dismissible: true, content: 'Dismiss me with a button.', timeout: false })">
+        Create Dismissible Toast
+    </button>
+</div>
+<toast></toast>
+        {% endhighlight %}
+    </div>
+    <div class="example card" style="font-size: .85rem;">
+        <div class="card-header">Javascript</div>
+        {% highlight javascript %}
+var app = new Vue({
+    debug: true,
+    el: '#example',
+    components: {
+        toast: vueboot.toast
+    },
+    data: {
+        show: false
+    },
+    methods: {
+        createToast: function(toast)
+        {
+            vueboot.toastService.create(toast);
+        }
+    }
+});
+        {% endhighlight %}
+    </div>
+</div>
+
+<h2>Service Methods</h2>
+<p>
+    Adding a new toast involves calling functions on the <code>toastService</code>. This service is exported just like
+    the components, and for a globally installed version, can be accessed directly as <code>vueboot.toastService</code>.
+</p>
+<ul>
+    <li>
+        <code>create(toastDef)</code> - (<code>String</code> or <code>Object</code>) creates a new toast, and displays
+        it. If you pass an object, it takes the same options as <a href="#alert">alerts</a>, except for
+        <code>onClosed</code>.
+    </li>
+</ul>
+
+<h2>Custom CSS</h2>
+<p>
+    In order to make toasts appear in the lower left corner, you can use the following CSS:
+</p>
+
+<div class="example card" style="font-size: .85rem;">
+    <div class="card-header">Javascript</div>
+    {% highlight css %}
+.toast-container {
+    position: fixed;
+    width: 400px;
+    bottom: 10px;
+    left: 10px;
+    z-index: 9001;
+}
+    {% endhighlight %}
+</div>

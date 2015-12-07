@@ -26,10 +26,15 @@ var app = new Vue({
         showAlertTab: function()
         {
             alert('Got Clicked!');
+        },
+        createToast: function(toast)
+        {
+            vueboot.toastService.create(toast);
         }
     },
     components: {
         alert: vueboot.alert,
+        toast: vueboot.toast,
         modal: vueboot.modal,
         tabset: vueboot.tabset,
         tab: vueboot.tab
