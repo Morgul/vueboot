@@ -2,6 +2,8 @@
 
 VueJS components and directives written using Bootstrap v4, leveraging the official Bootstrap JS.
 
+**Note: This should be considered pre-release software. There will be bugs! (Many of them from Bootstrap v4, in fact)**
+
 ### Project Focus
 
 This project is focused on providing useful/convenient VueJS wrappers around existing Bootstrap components. It does not

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags always come first -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+        <title>Toast Example</title>
+
+        <style>
+            .toast-container {
+                margin-top: 10px;
+            }
+        </style>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+    </head>
+    <body style="padding-top: 74px;">
+        <nav class="navbar navbar-fixed-top navbar-light bg-faded">
+            <div class="container">
+                <a class="navbar-brand" href="#">Toast Example</a>
+            </div>
+        </nav>
+
+        <!-- Example -->
+        <div id="example" class="container">
+            <h4>Example</h4>
+            <div class="btn-toolbar">
+                <button class="btn btn-primary" @click="createToast('Default Alert!!!!')">Create Default Toast</button>
+                <button class="btn btn-warning" @click="createToast({ type: 'warning', content: '<b>Warning!</b> This is a warning!' })">Create Warning Toast</button>
+                <button class="btn btn-success" @click="createToast({ type: 'success', dismissible: true, content: 'Dismiss me with a button.', timeout: false })">Create Dismissible Toast</button>
+            </div>
+            <toast></toast>
+        </div>
+
+        <!-- jQuery first, then Bootstrap JS. -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+
+        <!-- Now VueJS, then VueBoot -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.8/vue.js"></script>
+        <script src="../dist/vueboot.js"></script>
+
+        <!-- Example App -->
+        <script>
+            var app = new Vue({
+                debug: true,
+                el: '#example',
+                components: {
+                    toast: vueboot.toast
+                },
+                data: {
+                    show: false
+                },
+                methods: {
+                    createToast: function(toast)
+                    {
+                        vueboot.toastService.create(toast);
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
