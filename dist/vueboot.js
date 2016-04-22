@@ -1,15 +1,64 @@
-/* VueBoot v0.3.0 */
+/* VueBoot v0.4.0 */
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.vueboot = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+module.exports = { "default": _dereq_("core-js/library/fn/object/define-property"), __esModule: true };
+},{"core-js/library/fn/object/define-property":4}],2:[function(_dereq_,module,exports){
 "use strict";
 
-exports["default"] = function (obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
+exports.__esModule = true;
+
+exports.default = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
 };
+},{}],3:[function(_dereq_,module,exports){
+"use strict";
 
 exports.__esModule = true;
-},{}],2:[function(_dereq_,module,exports){
+
+var _defineProperty = _dereq_("../core-js/object/define-property");
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      (0, _defineProperty2.default)(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+},{"../core-js/object/define-property":1}],4:[function(_dereq_,module,exports){
+var $ = _dereq_('../../modules/$');
+module.exports = function defineProperty(it, key, desc){
+  return $.setDesc(it, key, desc);
+};
+},{"../../modules/$":5}],5:[function(_dereq_,module,exports){
+var $Object = Object;
+module.exports = {
+  create:     $Object.create,
+  getProto:   $Object.getPrototypeOf,
+  isEnum:     {}.propertyIsEnumerable,
+  getDesc:    $Object.getOwnPropertyDescriptor,
+  setDesc:    $Object.defineProperty,
+  setDescs:   $Object.defineProperties,
+  getKeys:    $Object.keys,
+  getNames:   $Object.getOwnPropertyNames,
+  getSymbols: $Object.getOwnPropertySymbols,
+  each:       [].forEach
+};
+},{}],6:[function(_dereq_,module,exports){
 (function (global){
 /**
  * @license
@@ -12364,7 +12413,7 @@ exports.__esModule = true;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],3:[function(_dereq_,module,exports){
+},{}],7:[function(_dereq_,module,exports){
 var Vue // late bind
 var map = Object.create(null)
 var shimmed = false
@@ -12570,6 +12619,10 @@ exports.update = function (id, newOptions, newTemplate) {
   record.views.forEach(function (view) {
     updateView(view, Component)
   })
+  // flush devtools
+  if (window.__VUE_DEVTOOLS_GLOBAL_HOOK__) {
+    window.__VUE_DEVTOOLS_GLOBAL_HOOK__.emit('flush')
+  }
 }
 
 /**
@@ -12588,24 +12641,79 @@ function updateView (view, Component) {
   // disable transitions
   view.vm._isCompiled = false
   // save state
-  var state = view.childVM.$data
+  var state = extractState(view.childVM)
   // remount, make sure to disable keep-alive
   var keepAlive = view.keepAlive
   view.keepAlive = false
   view.mountComponent()
   view.keepAlive = keepAlive
   // restore state
-  view.childVM.$data = state
+  restoreState(view.childVM, state, true)
   // re-eanble transitions
   view.vm._isCompiled = true
   view.hotUpdating = false
+}
+
+/**
+ * Extract state from a Vue instance.
+ *
+ * @param {Vue} vm
+ * @return {Object}
+ */
+
+function extractState (vm) {
+  return {
+    cid: vm.constructor.cid,
+    data: vm.$data,
+    children: vm.$children.map(extractState)
+  }
+}
+
+/**
+ * Restore state to a reloaded Vue instance.
+ *
+ * @param {Vue} vm
+ * @param {Object} state
+ */
+
+function restoreState (vm, state, isRoot) {
+  var oldAsyncConfig
+  if (isRoot) {
+    // set Vue into sync mode during state rehydration
+    oldAsyncConfig = Vue.config.async
+    Vue.config.async = false
+  }
+  // actual restore
+  if (isRoot || !vm._props) {
+    vm.$data = state.data
+  } else {
+    Object.keys(state.data).forEach(function (key) {
+      if (!vm._props[key]) {
+        // for non-root, only restore non-props fields
+        vm.$data[key] = state.data[key]
+      }
+    })
+  }
+  // verify child consistency
+  var hasSameChildren = vm.$children.every(function (c, i) {
+    return state.children[i] && state.children[i].cid === c.constructor.cid
+  })
+  if (hasSameChildren) {
+    // rehydrate children
+    vm.$children.forEach(function (c, i) {
+      restoreState(c, state.children[i])
+    })
+  }
+  if (isRoot) {
+    Vue.config.async = oldAsyncConfig
+  }
 }
 
 function format (id) {
   return id.match(/[^\/]+\.vue$/)[0]
 }
 
-},{}],4:[function(_dereq_,module,exports){
+},{}],8:[function(_dereq_,module,exports){
 var inserted = exports.cache = {}
 
 exports.insert = function (css) {
@@ -12625,11 +12733,13 @@ exports.insert = function (css) {
   return elem
 }
 
-},{}],5:[function(_dereq_,module,exports){
+},{}],9:[function(_dereq_,module,exports){
 'use strict';
 
-exports.__esModule = true;
-exports['default'] = {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
     props: {
         type: {
             type: String,
@@ -12637,19 +12747,19 @@ exports['default'] = {
         },
         dismissible: {
             type: Boolean,
-            'default': true
+            default: true
         },
         animation: {
             type: Boolean,
-            'default': true
+            default: true
         },
         timeout: {
             type: Number,
-            'default': -1
+            default: -1
         },
         onClosed: {
             type: Function,
-            'default': function _default() {}
+            default: function _default() {}
         }
     },
     methods: {
@@ -12671,7 +12781,7 @@ exports['default'] = {
         });
     }
 };
-module.exports = exports['default'];
+if (module.exports.__esModule) module.exports = module.exports.default
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div class=\"alert\" :class=\"'alert-' + type\" role=\"alert\">\n        <button v-if=\"dismissible\" type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">×</span>\n            <span class=\"sr-only\">Close</span>\n        </button>\n        <slot></slot>\n    </div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = _dereq_("vue-hot-reload-api")
@@ -12681,41 +12791,46 @@ if (module.hot) {(function () {  module.hot.accept()
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
-    hotAPI.update(id, module.exports, module.exports.template)
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":"vue","vue-hot-reload-api":3}],6:[function(_dereq_,module,exports){
+},{"vue":"vue","vue-hot-reload-api":7}],10:[function(_dereq_,module,exports){
 'use strict';
 
-exports.__esModule = true;
-exports['default'] = {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
     inherit: true,
     props: {
         show: {
             type: Boolean,
-            'default': false,
+            default: false,
             twoWay: true
         },
         animation: {
             type: Boolean,
-            'default': true
+            default: true
         },
         width: {
             type: String
         },
         backdrop: {
-            'default': true
+            default: true
         },
         keyboard: {
             type: Boolean,
-            'default': true
+            default: true
         },
         autoFocus: {
             type: String
         },
+        modalClass: {
+            type: String
+        },
         onClosed: {
             type: Function,
-            'default': function _default() {}
+            default: function _default() {}
         }
     },
     methods: {
@@ -12743,6 +12858,8 @@ exports['default'] = {
     ready: function ready() {
         var _this = this;
 
+        console.log('keyboard?', this.keyboard);
+
         $(this.$el).on('shown.bs.modal', function () {
             if (_this.autoFocus) {
                 var autoElem = $(_this.autoFocus);
@@ -12760,8 +12877,8 @@ exports['default'] = {
         });
     }
 };
-module.exports = exports['default'];
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div class=\"modal\" :class=\"{ fade: animation }\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\" data-backdrop=\"{{ backdrop }}\" data-keyboard=\"{{ keyboard }}\">\n        <div class=\"modal-dialog\" role=\"document\" :style=\"{ width: width }\">\n            <div class=\"modal-content\">\n                <slot name=\"header\"></slot>\n                <slot name=\"body\"></slot>\n                <slot name=\"footer\"></slot>\n            </div>\n        </div>\n    </div>\n"
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div class=\"modal\" :class=\"{ fade: animation }\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\" :data-backdrop=\"backdrop.toString()\" :data-keyboard=\"keyboard.toString()\">\n        <div class=\"modal-dialog\" :class=\"modalClass\" role=\"document\" :style=\"{ 'max-width': width, width: width }\">\n            <div class=\"modal-content\">\n                <slot name=\"header\"></slot>\n                <slot name=\"body\"></slot>\n                <slot name=\"footer\"></slot>\n            </div>\n        </div>\n    </div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = _dereq_("vue-hot-reload-api")
   hotAPI.install(_dereq_("vue"), true)
@@ -12770,25 +12887,27 @@ if (module.hot) {(function () {  module.hot.accept()
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
-    hotAPI.update(id, module.exports, module.exports.template)
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":"vue","vue-hot-reload-api":3}],7:[function(_dereq_,module,exports){
+},{"vue":"vue","vue-hot-reload-api":7}],11:[function(_dereq_,module,exports){
 'use strict';
 
-exports.__esModule = true;
-exports['default'] = {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
     props: {
         header: {
             type: String
         },
         disabled: {
             type: Boolean,
-            'default': false
+            default: false
         },
         onSelected: {
             type: Function,
-            'default': function _default() {}
+            default: function _default() {}
         }
     },
     data: function data() {
@@ -12823,7 +12942,7 @@ exports['default'] = {
         } // end if
     }
 };
-module.exports = exports['default'];
+if (module.exports.__esModule) module.exports = module.exports.default
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div role=\"tabpanel\" class=\"tab-pane\" :class=\"{ active: active }\" :id=\"id\">\n        <slot></slot>\n    </div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = _dereq_("vue-hot-reload-api")
@@ -12833,19 +12952,21 @@ if (module.hot) {(function () {  module.hot.accept()
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
-    hotAPI.update(id, module.exports, module.exports.template)
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":"vue","vue-hot-reload-api":3}],8:[function(_dereq_,module,exports){
+},{"vue":"vue","vue-hot-reload-api":7}],12:[function(_dereq_,module,exports){
 var __vueify_style__ = _dereq_("vueify-insert-css").insert("/* line 6, stdin */\n.card .tabset .nav-tabs {\n  padding-top: 1.25rem;\n  padding-left: 1.25rem; }\n\n/* line 11, stdin */\n.card .tabset .tab-content {\n  padding: .5rem 1.25rem 1.25rem; }\n\n/* line 16, stdin */\n.card .tabset.tabs-left .nav-tabs {\n  padding-bottom: 1.25rem; }\n\n/* line 19, stdin */\n.card .tabset.tabs-left .tab-content {\n  padding: 1.25rem 1.25rem 1.25rem 0; }\n\n/* line 25, stdin */\n.card .tabset.tabs-right .nav-tabs {\n  padding-top: 1.25rem;\n  padding-left: 0;\n  padding-right: 1.25rem;\n  padding-bottom: 1.25rem; }\n\n/* line 31, stdin */\n.card .tabset.tabs-right .tab-content {\n  padding: 1.25rem 0 1.25rem 1.25rem; }\n\n/* line 37, stdin */\n.card .tabset.tabs-bottom .nav-tabs {\n  padding-top: 0;\n  padding-bottom: 1.25rem;\n  padding-left: 1.25rem; }\n\n/* line 42, stdin */\n.card .tabset.tabs-bottom .tab-content {\n  padding: 1.25rem 1.25rem .5rem 1.25rem; }\n\n/* line 54, stdin */\n.tabs-bottom .nav-tabs, .tabs-right .nav-tabs, .tabs-left .nav-tabs {\n  border-bottom: 0; }\n\n/* line 59, stdin */\n.tab-content > .tab-pane,\n.pill-content > .pill-pane {\n  display: none; }\n\n/* line 64, stdin */\n.tab-content > .active,\n.pill-content > .active {\n  display: block; }\n\n/* line 70, stdin */\n.tabs-bottom > .nav-tabs {\n  border-top: 1px solid #ddd; }\n  /* line 73, stdin */\n  .tabs-bottom > .nav-tabs > li {\n    margin-top: -1px;\n    margin-bottom: 0; }\n    /* line 77, stdin */\n    .tabs-bottom > .nav-tabs > li > a {\n      -webkit-border-radius: 0 0 4px 4px;\n      -moz-border-radius: 0 0 4px 4px;\n      border-radius: 0 0 4px 4px; }\n      /* line 82, stdin */\n      .tabs-bottom > .nav-tabs > li > a:hover, .tabs-bottom > .nav-tabs > li > a:focus {\n        border-bottom-color: #ddd;\n        border-top-color: transparent; }\n      /* line 88, stdin */\n      .tabs-bottom > .nav-tabs > li > a.active, .tabs-bottom > .nav-tabs > li > a.active:hover, .tabs-bottom > .nav-tabs > li > a.active:focus {\n        border-color: transparent #ddd #ddd #ddd;\n        *border-top-color: #fff; }\n\n/* line 98, stdin */\n.tabs-left, .tabs-right {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex; }\n  /* line 101, stdin */\n  .tabs-left > .nav-tabs, .tabs-right > .nav-tabs {\n    -webkit-box-flex: 1;\n    -webkit-flex: 1 1 auto;\n        -ms-flex: 1 1 auto;\n            flex: 1 1 auto;\n    white-space: nowrap;\n    float: none; }\n  /* line 107, stdin */\n  .tabs-left .tab-content, .tabs-right .tab-content {\n    -webkit-box-flex: 1;\n    -webkit-flex: 1 1 100%;\n        -ms-flex: 1 1 100%;\n            flex: 1 1 100%; }\n  /* line 111, stdin */\n  .tabs-left > .nav-tabs > li, .tabs-right > .nav-tabs > li {\n    float: none; }\n    /* line 114, stdin */\n    .tabs-left > .nav-tabs > li > a, .tabs-right > .nav-tabs > li > a {\n      min-width: 74px;\n      margin-right: 0;\n      margin-bottom: 3px; }\n  /* line 121, stdin */\n  .tabs-left .nav-tabs .nav-item + .nav-item, .tabs-right .nav-tabs .nav-item + .nav-item {\n    margin-left: 0; }\n\n/* line 126, stdin */\n.tabs-left > .nav-tabs {\n  float: left;\n  margin-right: 19px;\n  border-right: 1px solid #ddd; }\n  /* line 131, stdin */\n  .tabs-left > .nav-tabs > li > a {\n    margin-right: -1px;\n    -webkit-border-radius: 4px 0 0 4px;\n    -moz-border-radius: 4px 0 0 4px;\n    border-radius: 4px 0 0 4px; }\n    /* line 137, stdin */\n    .tabs-left > .nav-tabs > li > a:hover, .tabs-left > .nav-tabs > li > a:focus {\n      border-color: #eee #ddd #eee #eee; }\n    /* line 142, stdin */\n    .tabs-left > .nav-tabs > li > a.active, .tabs-left > .nav-tabs > li > a.active:hover, .tabs-left > .nav-tabs > li > a.active:focus {\n      border-color: #ddd transparent #ddd #ddd;\n      *border-right-color: #fff; }\n\n/* line 150, stdin */\n.tabs-right > .nav-tabs {\n  float: right;\n  margin-left: 19px;\n  border-left: 1px solid #ddd; }\n  /* line 155, stdin */\n  .tabs-right > .nav-tabs > li > a {\n    margin-left: -1px;\n    -webkit-border-radius: 0 4px 4px 0;\n    -moz-border-radius: 0 4px 4px 0;\n    border-radius: 0 4px 4px 0; }\n    /* line 161, stdin */\n    .tabs-right > .nav-tabs > li > a:hover, .tabs-right > .nav-tabs > li > a:focus {\n      border-color: #eee #eee #eee #ddd; }\n    /* line 166, stdin */\n    .tabs-right > .nav-tabs > li > a.active, .tabs-right > .nav-tabs > li > a.active:hover, .tabs-right > .nav-tabs > li > a.active:focus {\n      border-color: #ddd #ddd #ddd transparent;\n      *border-left-color: #fff; }\n\n/* line 174, stdin */\n.tabs-left .tab-pane,\n.tabs-right .tab-pane {\n  overflow-y: auto; }\n")
 'use strict';
 
-exports.__esModule = true;
-exports['default'] = {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
     props: {
         orientation: {
             type: String,
-            'default': 'top'
+            default: 'top'
         }
     },
     data: function data() {
@@ -12880,7 +13001,7 @@ exports['default'] = {
         }
     }
 };
-module.exports = exports['default'];
+if (module.exports.__esModule) module.exports = module.exports.default
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div class=\"tabset clearfix\" :class=\"orientationClass()\">\n        <!-- Nav tabs -->\n        <ul v-if=\"orientation != 'bottom' &amp;&amp; orientation != 'right'\" class=\"nav nav-tabs\" role=\"tablist\">\n            <li class=\"nav-item\" v-for=\"tab in tabs\">\n                <a class=\"nav-link\" :class=\"{ active: tab.active, disabled: tab.disabled }\" href=\"#{{ $index }}\" role=\"tab\" data-toggle=\"tab\" @click.stop.prevent=\"activateTab($index)\">{{{ tab.header }}}</a>\n            </li>\n        </ul>\n\n        <!-- Tab panes -->\n        <div class=\"tab-content\">\n            <slot></slot>\n        </div>\n\n        <!-- Nav tabs -->\n        <ul v-if=\"orientation == 'bottom' || orientation == 'right'\" class=\"nav nav-tabs\" role=\"tablist\">\n            <li class=\"nav-item\" v-for=\"tab in tabs\">\n                <a class=\"nav-link\" :class=\"{ active: tab.active, disabled: tab.disabled }\" href=\"#{{ $index }}\" role=\"tab\" data-toggle=\"tab\" @click.stop.prevent=\"activateTab($index)\">{{{ tab.header }}}</a>\n            </li>\n        </ul>\n    </div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = _dereq_("vue-hot-reload-api")
@@ -12894,31 +13015,33 @@ if (module.hot) {(function () {  module.hot.accept()
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
-    hotAPI.update(id, module.exports, module.exports.template)
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":"vue","vue-hot-reload-api":3,"vueify-insert-css":4}],9:[function(_dereq_,module,exports){
+},{"vue":"vue","vue-hot-reload-api":7,"vueify-insert-css":8}],13:[function(_dereq_,module,exports){
 'use strict';
 
-var _interopRequireDefault = _dereq_('babel-runtime/helpers/interop-require-default')['default'];
-
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _toastSvc = _dereq_('./toastSvc');
 
 var _toastSvc2 = _interopRequireDefault(_toastSvc);
 
-var _alertAlertVue = _dereq_('../alert/alert.vue');
+var _alert = _dereq_('../alert/alert.vue');
 
-var _alertAlertVue2 = _interopRequireDefault(_alertAlertVue);
+var _alert2 = _interopRequireDefault(_alert);
 
-exports['default'] = {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
     components: {
-        alert: _alertAlertVue2['default']
+        alert: _alert2.default
     },
     data: function data() {
         return {
-            state: _toastSvc2['default'].state
+            state: _toastSvc2.default.state
         };
     },
     computed: {
@@ -12936,7 +13059,7 @@ exports['default'] = {
         }
     }
 };
-module.exports = exports['default'];
+if (module.exports.__esModule) module.exports = module.exports.default
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <div class=\"toast-container\">\n        <alert :type=\"toast.type\" :dismissible=\"toast.dismissible\" :timeout=\"toast.timeout\" :onclose=\"removeToast(toast)\" v-for=\"toast in toasts\">{{{ toast.content }}}</alert>\n    </div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = _dereq_("vue-hot-reload-api")
@@ -12946,57 +13069,49 @@ if (module.hot) {(function () {  module.hot.accept()
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
-    hotAPI.update(id, module.exports, module.exports.template)
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../alert/alert.vue":5,"./toastSvc":10,"babel-runtime/helpers/interop-require-default":1,"vue":"vue","vue-hot-reload-api":3}],10:[function(_dereq_,module,exports){
-//----------------------------------------------------------------------------------------------------------------------
-/// ToastService
-///
-/// @module
-//----------------------------------------------------------------------------------------------------------------------
-
+},{"../alert/alert.vue":9,"./toastSvc":14,"vue":"vue","vue-hot-reload-api":7}],14:[function(_dereq_,module,exports){
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _classCallCheck2 = _dereq_('babel-runtime/helpers/classCallCheck');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+var _createClass2 = _dereq_('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _lodash = _dereq_('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 //----------------------------------------------------------------------------------------------------------------------
 
-var ToastService = (function () {
+var ToastService = function () {
     function ToastService() {
-        _classCallCheck(this, ToastService);
+        (0, _classCallCheck3.default)(this, ToastService);
 
         this.state = {
             toasts: []
         };
-    }
+    } // end constructor
 
-    // end ToastService
-
-    //----------------------------------------------------------------------------------------------------------------------
-
-    // end constructor
-
-    _createClass(ToastService, [{
+    (0, _createClass3.default)(ToastService, [{
         key: 'create',
         value: function create(toast) {
-            if (_lodash2['default'].isString(toast)) {
+            if (_lodash2.default.isString(toast)) {
                 toast = { content: toast };
             } // end if
 
-            toast = _lodash2['default'].defaults({}, toast, {
+            toast = _lodash2.default.defaults({}, toast, {
                 type: 'info',
                 dismissible: false,
                 timeout: 5000
@@ -13008,70 +13123,72 @@ var ToastService = (function () {
             } // end if
 
             this.state.toasts.push(toast);
-        }
-        // end create
+        } // end create
+
     }]);
-
     return ToastService;
-})();
-
-exports['default'] = new ToastService();
+}(); // end ToastService
 
 //----------------------------------------------------------------------------------------------------------------------
-module.exports = exports['default'];
 
-},{"lodash":2}],11:[function(_dereq_,module,exports){
+//----------------------------------------------------------------------------------------------------------------------
+/// ToastService
+///
+/// @module
+//----------------------------------------------------------------------------------------------------------------------
+
+exports.default = new ToastService();
+
+//----------------------------------------------------------------------------------------------------------------------
+
+},{"babel-runtime/helpers/classCallCheck":2,"babel-runtime/helpers/createClass":3,"lodash":6}],15:[function(_dereq_,module,exports){
+"use strict";
+
+var _alert = _dereq_("./alert/alert.vue");
+
+var _alert2 = _interopRequireDefault(_alert);
+
+var _toast = _dereq_("./toast/toast.vue");
+
+var _toast2 = _interopRequireDefault(_toast);
+
+var _toastSvc = _dereq_("./toast/toastSvc");
+
+var _toastSvc2 = _interopRequireDefault(_toastSvc);
+
+var _modal = _dereq_("./modal/modal.vue");
+
+var _modal2 = _interopRequireDefault(_modal);
+
+var _tabset = _dereq_("./tabs/tabset.vue");
+
+var _tabset2 = _interopRequireDefault(_tabset);
+
+var _tab = _dereq_("./tabs/tab.vue");
+
+var _tab2 = _interopRequireDefault(_tab);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//----------------------------------------------------------------------------------------------------------------------
+
+// Use node-style export to allow global vueboot object to work correctly.
 //----------------------------------------------------------------------------------------------------------------------
 /// Main VueBoot module
 ///
 /// @module
 //----------------------------------------------------------------------------------------------------------------------
 
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _alertAlertVue = _dereq_("./alert/alert.vue");
-
-var _alertAlertVue2 = _interopRequireDefault(_alertAlertVue);
-
-var _toastToastVue = _dereq_("./toast/toast.vue");
-
-var _toastToastVue2 = _interopRequireDefault(_toastToastVue);
-
-var _toastToastSvc = _dereq_("./toast/toastSvc");
-
-var _toastToastSvc2 = _interopRequireDefault(_toastToastSvc);
-
-var _modalModalVue = _dereq_("./modal/modal.vue");
-
-var _modalModalVue2 = _interopRequireDefault(_modalModalVue);
-
-var _tabsTabsetVue = _dereq_("./tabs/tabset.vue");
-
-var _tabsTabsetVue2 = _interopRequireDefault(_tabsTabsetVue);
-
-var _tabsTabVue = _dereq_("./tabs/tab.vue");
-
-var _tabsTabVue2 = _interopRequireDefault(_tabsTabVue);
-
-//----------------------------------------------------------------------------------------------------------------------
-
-exports["default"] = {
-    alert: _alertAlertVue2["default"],
-    toast: _toastToastVue2["default"],
-    toastService: _toastToastSvc2["default"],
-    modal: _modalModalVue2["default"],
-    tabset: _tabsTabsetVue2["default"],
-    tab: _tabsTabVue2["default"]
+module.exports = {
+    alert: _alert2.default,
+    toast: _toast2.default,
+    toastService: _toastSvc2.default,
+    modal: _modal2.default,
+    tabset: _tabset2.default,
+    tab: _tab2.default
 };
 
 //----------------------------------------------------------------------------------------------------------------------
-module.exports = exports["default"];
 
-},{"./alert/alert.vue":5,"./modal/modal.vue":6,"./tabs/tab.vue":7,"./tabs/tabset.vue":8,"./toast/toast.vue":9,"./toast/toastSvc":10}]},{},[11])(11)
+},{"./alert/alert.vue":9,"./modal/modal.vue":10,"./tabs/tab.vue":11,"./tabs/tabset.vue":12,"./toast/toast.vue":13,"./toast/toastSvc":14}]},{},[15])(15)
 });
