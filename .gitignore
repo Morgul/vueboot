@@ -7,5 +7,12 @@
 # Node artifacts
 node_modules
 
+# Bower artifacts
+vendor
+!vendor/bootstrap/dist
+!vendor/jquery/dist
+!vendor/vue/dist
+
 # Jekyll artifacts
 _site
+
