@@ -1,6 +1,6 @@
 <template>
-    <div class="modal" :class="{ fade: animation }" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="{{ backdrop }}" data-keyboard="{{ keyboard }}">
-        <div class="modal-dialog" role="document" :style="{ width: width }">
+    <div class="modal" :class="{ fade: animation }" tabindex="-1" role="dialog" aria-hidden="true" :data-backdrop="backdrop.toString()" :data-keyboard="keyboard.toString()">
+        <div class="modal-dialog" :class="modalClass" role="document" :style="{ 'max-width': width, width: width }">
             <div class="modal-content">
                 <slot name="header"></slot>
                 <slot name="body"></slot>
@@ -34,6 +34,9 @@
                 default: true
             },
             autoFocus: {
+                type: String
+            },
+            modalClass: {
                 type: String
             },
             onClosed: {
@@ -72,6 +75,8 @@
         },
         ready: function()
         {
+            console.log('keyboard?', this.keyboard);
+
             $(this.$el).on('shown.bs.modal', () =>
             {
                 if(this.autoFocus)
