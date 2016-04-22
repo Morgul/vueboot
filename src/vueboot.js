@@ -13,7 +13,8 @@ import tab from "./tabs/tab.vue";
 
 //----------------------------------------------------------------------------------------------------------------------
 
-export default {
+// Use node-style export to allow global vueboot object to work correctly.
+module.exports = {
     alert,
     toast,
     toastService,
