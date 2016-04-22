@@ -1,3 +1,3 @@
-highlighter: pygments
+highlighter: rouge
 exclude: [node_modules, npm-debug.log]
 baseurl: /vueboot
