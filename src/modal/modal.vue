@@ -75,8 +75,6 @@
         },
         ready: function()
         {
-            console.log('keyboard?', this.keyboard);
-
             $(this.$el).on('shown.bs.modal', () =>
             {
                 if(this.autoFocus)
