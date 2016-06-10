@@ -73,7 +73,6 @@
 
                 if(!hasActive)
                 {
-                    console.log('no active tab!');
                     this.activateTab(0);
                 } // end if
             },
