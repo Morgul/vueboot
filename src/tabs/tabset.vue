@@ -65,23 +65,22 @@
             },
             ensureActiveTab: function()
             {
-                var hasActive = false;
-                this.tabs.forEach((tab) =>
+                var activeTab = 0;
+                this.tabs.forEach((tab, index) =>
                 {
-                    hasActive = hasActive || tab.active;
+                    if(tab.active)
+                    {
+                        activeTab = index;
+                    } // end if
                 });
 
-                if(!hasActive)
-                {
-                    this.activateTab(0);
-                } // end if
+                this.activateTab(activeTab);
             },
             registerTab: function(tab)
             {
                 tab.id = this.tabs.length;
-                this.ensureActiveTab();
-
                 this.tabs.push(tab);
+                this.ensureActiveTab();
             },
             removeTab(tab)
             {
