@@ -46,6 +46,10 @@
         {
             this.$parent.registerTab(this);
         },
+        beforeDestroy: function()
+        {
+            this.$parent.removeTab(this);
+        },
         ready: function()
         {
             // Support Header element

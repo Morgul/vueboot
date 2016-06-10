@@ -37,6 +37,18 @@
 
             <br>
 
+            <h4>Dynamic Tabs</h4>
+
+            <button class="btn btn-primary pull-right" @click="reloadTabs()">Reload Tabs</button>
+
+            <tabs>
+                <tab :header="tab.header" v-for="tab in tabs">
+                    {{ tab.content }}
+                </tab>
+            </tabs>
+
+            <br>
+
             <h4>Kitchen Sink</h4>
             <tabs>
                 <tab :header="'Tab 1'">
@@ -166,10 +178,28 @@
                     tabs: vueboot.tabset,
                     tab: vueboot.tab
                 },
+                data: function()
+                {
+                    return {
+                        tabs: [
+                            { header: 'Dynamic Tab 1', content: 'Tab 1, wooo!' },
+                            { header: 'Dynamic Tab 2', content: 'Tab 2, wooo!' },
+                            { header: 'Dynamic Tab 3', content: 'Tab 3, wooo!' }
+                        ]
+                    }
+                },
                 methods: {
                     showAlert: function()
                     {
                         alert('Got Clicked!');
+                    },
+                    reloadTabs: function()
+                    {
+                        this.tabs = [
+                            { header: 'Dynamic Tab 1', content: 'Reloaded Tab 1, wooo!' },
+                            { header: 'Dynamic Tab 2', content: 'Reloaded Tab 2, wooo!' },
+                            { header: 'Dynamic Tab 3', content: 'Reloaded Tab 3, wooo!' }
+                        ];
                     }
                 }
             });

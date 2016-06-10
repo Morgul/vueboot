@@ -63,12 +63,31 @@
                     });
                 } // end if
             },
+            ensureActiveTab: function()
+            {
+                var hasActive = false;
+                this.tabs.forEach((tab) =>
+                {
+                    hasActive = hasActive || tab.active;
+                });
+
+                if(!hasActive)
+                {
+                    console.log('no active tab!');
+                    this.activateTab(0);
+                } // end if
+            },
             registerTab: function(tab)
             {
                 tab.id = this.tabs.length;
-                tab.active = this.tabs.length === 0;
+                this.ensureActiveTab();
 
                 this.tabs.push(tab);
+            },
+            removeTab(tab)
+            {
+                this.tabs.$remove(tab);
+                this.ensureActiveTab();
             }
         }
     }
