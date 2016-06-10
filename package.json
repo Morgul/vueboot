@@ -1,6 +1,6 @@
 {
   "name": "vueboot",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A collection of Vuejs components that wrap Bootstrap components",
   "main": "dist/vueboot.js",
   "scripts": {
