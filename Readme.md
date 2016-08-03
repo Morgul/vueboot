@@ -12,9 +12,8 @@ adding new components, but see the [Contributing](#contributing) section for wha
 
 ## Why?
 
-For two reasons, mostly. First is, I want to use Bootstrap v4 and VueJS v1.0. While 
-[VueStrap](http://yuche.github.io/vue-strap) is a very nice looking project, it has not been updated for either VueJS 
-v1.0 or Bootstrap v4. I'm crazy, I want to start working on the bleeding edge.
+For two reasons, mostly. First is, I want to use Bootstrap v4 and VueJS v1.0. While [VueStrap](http://yuche.github.io/vue-strap) is a very nice looking project, it was updated for VueJS 
+ -v1.0 after I started VueBoot. Work on Bootstrap v4 is [underway](https://github.com/yuche/vue-strap/issues/41) but not complete yet, and I want to work on the bleeding edge. I'm crazy, I want to start working on the bleeding edge.
 
 The second reason is a bit more personal, and born out of experience with [UIBootstrap](https://angular-ui.github.io/bootstrap).
 The Bootstrap developers put a lot of work into their javascript code, and implementations that replace it with 'native'
