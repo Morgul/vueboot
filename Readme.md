@@ -1,3 +1,9 @@
+# 🚨UNMAINTAINED 🚨
+
+I have decided not to maintain this software, in light of [BootstrapVue](https://bootstrap-vue.js.org/). I do not recommend building anything based off this code.
+
+-----
+
 # VueBoot
 
 VueJS components and directives written using Bootstrap v4, leveraging the official Bootstrap JS.
